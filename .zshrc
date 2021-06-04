@@ -1,5 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=/usr/local/cuda-10.0/bin:$HOME/bin:/usr/local/bin:$HOME/.local/bin:$PATH
+export JAVA_HOME=/usr/lib/jvm/default-java
 
 # Path to your oh-my-zsh installation.
   export ZSH="/home/dragos/.oh-my-zsh"
@@ -8,7 +10,7 @@
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="agnoster"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -66,11 +68,8 @@ plugins=(
   git
   java
   npm
-  keychain
-  history
-  nvx
+  vi-mode
   zsh-autosuggestions
-  
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -78,11 +77,6 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
-
-
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-export JAVA_HOME=/usr/lib/jvm/default-java
-
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -93,6 +87,12 @@ export JAVA_HOME=/usr/lib/jvm/default-java
 # else
 #   export EDITOR='mvim'
 # fi
+
+# Enable vi mode
+bindkey -v
+#VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
+#MODE_INDICATOR="%F{yellow}+%f"
+
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -108,3 +108,17 @@ export JAVA_HOME=/usr/lib/jvm/default-java
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Load version control information
+autoload -Uz vcs_info
+precmd() { vcs_info }
+
+# Format the vcs_info_msg_0_ variable
+zstyle ':vcs_info:git:*' formats 'on branch %b'
+ 
+# Set up the prompt (with git branch name)
+setopt PROMPT_SUBST
+#PROMPT='%n in ${PWD/#$HOME/~} ${vcs_info_msg_0_} > '
+source /etc/zsh_command_not_found
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
